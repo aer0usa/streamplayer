@@ -9,6 +9,7 @@
   "author": "aer0usa",
   "license": "ISC",
   "dependencies": {
-    "ffplay": "^1.1.0"
+    "ffplay": "^1.1.0",
+    "onoff": "^6.0.1"
   }
 }
