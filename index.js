@@ -46,4 +46,5 @@ process.on('SIGINT', _ => {
 	led.writeSync(0);
 	led.unexport();
 	button.unexport();
+	process.exit(0);
 });
