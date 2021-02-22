@@ -16,20 +16,23 @@ const changeChannel = newStream => {
 	player = new FFplay(newStream);
 }
 
-/*
-setTimeout(() => {
-	console.log("stopping");
-	player.stop();
-	player = null;
-}, 30000);
-*/
-
+const { exec } = require("child_process");
 const Gpio = require('onoff').Gpio;
 const led = new Gpio(27, 'out');
-const button = new Gpio(22, 'in', 'rising', {debounceTimeout: 10});
+const btnTune = new Gpio(22, 'in', 'rising', {debounceTimeout: 10});
+const btnStop = new Gpio(5, 'in', 'rising', {debounceTimer: 10});
 let light = false;
 
-button.watch((err, value) => {
+const cleanUp = () => {
+	console.log("CleanUp");
+	player.stop();
+	player = null;
+	led.writeSync(0);
+	led.unexport();
+	btnTune.unexport();
+}
+
+btnTune.watch((err, value) => {
 	if (err) {
 		throw err;
 	}
@@ -39,12 +42,28 @@ button.watch((err, value) => {
 	changeChannel(streams[++streamIndex % streams.length]);
 });
 
-// Clean up on quit
+btnStop.watch((err, value) => {
+	console.log("Exit Button");
+	if (err) {
+		throw err;
+	}
+	cleanUp();
+	exec("sudo shutdown -h now", (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+		console.log(`stdout: ${stdout}`);
+	});
+});
+
+// Clean up on Ctrl-C quit
 process.on('SIGINT', _ => {
-	player.stop();
-	player = null;
-	led.writeSync(0);
-	led.unexport();
-	button.unexport();
+	console.log("Ctrl-C");
+	cleanUp();
 	process.exit(0);
 });
