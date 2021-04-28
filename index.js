@@ -21,7 +21,8 @@ const Gpio = require('onoff').Gpio;
 const led = new Gpio(27, 'out');
 const btnTune = new Gpio(22, 'in', 'rising', {debounceTimeout: 10});
 const btnStop = new Gpio(5, 'in', 'rising', {debounceTimer: 10});
-let light = false;
+let light = true;
+led.writeSync(light ? 1 : 0);
 
 const cleanUp = () => {
 	console.log("CleanUp");
@@ -32,16 +33,29 @@ const cleanUp = () => {
 	btnTune.unexport();
 }
 
+const blink = () => {
+	led.writeSync(0);
+	setTimeout(() =>{led.writeSync(1);}, 250);
+	setTimeout(() =>{led.writeSync(0);}, 500);
+	setTimeout(() =>{led.writeSync(light ? 1 : 0);}, 750);
+}
+
+// Tune Button
 btnTune.watch((err, value) => {
+	console.log("Change Channel");
+	/*
 	if (err) {
 		throw err;
 	}
 	light = !light;
 	// console.log("Button Press ", (value ? "On" : "Off"), "Light: ", light);
 	led.writeSync(light ? 1 : 0);
+	*/
+	setTimeout(blink, 1);
 	changeChannel(streams[++streamIndex % streams.length]);
 });
 
+// Exit Button
 btnStop.watch((err, value) => {
 	console.log("Exit Button");
 	if (err) {
