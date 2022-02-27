@@ -21,7 +21,7 @@ GPIO access and interrupt detection with Node.js on Linux boards like the Raspbe
 
 * Control volume while player is playing
 
-    amixer set PCM -- 100%
+    `amixer set PCM -- 100%`
     
 * Control with web server
     * expressjs server?
