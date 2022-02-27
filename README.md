@@ -21,7 +21,9 @@ GPIO access and interrupt detection with Node.js on Linux boards like the Raspbe
 
 * Control volume while player is playing
 
-    `amixer set PCM -- 100%`
+    `exec("amixer set PCM -- 100%", callback)`
+    
+    See `man amixer` - "PCM" might not be corrrect. Maybe "Master"?
     
 * Control with web server
     * expressjs server?
