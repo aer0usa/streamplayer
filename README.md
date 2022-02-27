@@ -27,3 +27,8 @@ GPIO access and interrupt detection with Node.js on Linux boards like the Raspbe
     
 * Control with web server
     * expressjs server?
+
+* Amplifier Mute/Off via software
+
+Power Amplifier SD pin by connecting its pullup resistor to a GPIO Output.
+Turn the GPIO Output **ON** to turn the amp on, **OFF** for off/mute
