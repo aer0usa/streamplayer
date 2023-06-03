@@ -2,6 +2,7 @@ console.log("Here I am");
 let streams = [
 	"http://tess.fast-serv.com:8570/",
 	"http://kara.fast-serv.com:8358/",
+    "http://retrostrange.com:8000/radio1-mp3",
 	"https://ice8.securenetsystems.net/WXRC?playSessionID=B924D20F-155D-C0F3-037E590BC7D113D6",
 	"https://audio-mp3.ibiblio.org/wdav-112k"
 ];
